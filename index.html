@@ -252,7 +252,7 @@
         <div class="letter-content" id="letter">
             <p><b>Hai Sayangku,</b></p>
             <p>Apa kabar hari ini, udah mandi belum ?</p>
-            <p>Semangat pagi, jangan lupa mandi!</b> ❤️</p>
+            <p>Semangat pagi, jangan lupa mandi! ❤️</p>
             <p style="text-align: right;">-Lalala</p>
         </div>
 
@@ -263,7 +263,9 @@
 
     <script>
         /* --- 1. SETUP TANGGAL JADIAN --- */
-        const startDate = new Date(2025, 4, 18); // Format: (Tahun, Bulan-1, Tanggal)
+        // Format: (Tahun, Bulan-1, Tanggal)
+        // Angka 4 berarti MEI (Jan=0, Feb=1, Mar=2, Apr=3, Mei=4)
+        const startDate = new Date(2025, 4, 18); 
 
         /* --- 2. SETUP ALASAN CINTA (Bisa ditambah) --- */
         const reasons = [
@@ -273,7 +275,7 @@
             "Beda Warna🤬"
         ];
 
-        /* --- LOGIC SCRIPT (JANGAN DIUBAH KECUALI PAHAM) --- */
+        /* --- LOGIC SCRIPT --- */
         
         // Timer Logic
         function updateTimer() {
@@ -286,16 +288,18 @@
             document.getElementById("timer").innerHTML = `${days} Hari : ${hours} Jam : ${minutes} Menit : ${seconds} Detik`;
         }
         setInterval(updateTimer, 1000);
+        updateTimer();
 
         // Slideshow Logic
         let slideIndex = 0;
         const slides = document.querySelectorAll(".photo-slide");
         function showSlides() {
+            if (slides.length === 0) return;
             slides.forEach(slide => slide.classList.remove("active"));
             slideIndex++;
             if (slideIndex > slides.length) { slideIndex = 1 }
             slides[slideIndex - 1].classList.add("active");
-            setTimeout(showSlides, 3000); // Ganti gambar setiap 3 detik
+            setTimeout(showSlides, 3000);
         }
         showSlides();
 
@@ -307,9 +311,13 @@
                 music.pause();
                 isPlaying = false;
             } else {
-                music.play();
-                isPlaying = true;
-                alert("Musik diputar! 🎵"); // Feedback sederhana
+                music.play().then(() => {
+                    isPlaying = true;
+                    alert("Musik diputar! 🎵");
+                }).catch(e => {
+                    alert("Gagal memutar musik. Coba klik lagi!");
+                    console.log(e);
+                });
             }
         }
 
@@ -343,7 +351,3 @@
     </script>
 </body>
 </html>
-
-
-
-
