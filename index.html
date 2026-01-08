@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisah Kita</title>
+    <style>
+        /* --- CSS STYLING --- */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            color: #444;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        header {
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .couple-names {
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: #555;
+        }
+
+        /* Foto Utama (Profile) */
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            display: block;
+            /* Ganti URL di bawah ini dengan foto kalian */
+            background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Timer Box */
+        .timer-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 30px 0;
+        }
+
+        #timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .label {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* Pesan / Surat */
+        .message-card {
+            background: #fff0f1;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: left;
+            position: relative;
+        }
+
+        .message-card::before {
+            content: '"';
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #ffb7b2;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: fixed;
+            top: -1vh;
+            transform: translateY(0);
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            opacity: 0.8;
+            z-index: 1;
+            animation: fall 10s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh);
+            }
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        /* Button */
+        .btn-love {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-love:hover {
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="hearts-container"></div>
+
+    <div class="container">
+        <header>
+            <h1>Happy Anniversary</h1>
+            <div class="couple-names">AKU & KAMU</div>
+        </header>
+
+        <div class="profile-pic"></div>
+
+        <div class="timer-box">
+            <div class="label">Kita sudah bersama selama:</div>
+            <div id="timer">Memuat waktu...</div>
+        </div>
+
+        <div class="message-card">
+            <p>Hai sayang,</p>
+            <p>Terima kasih sudah menjadi bagian terbaik dalam hidupku. Website sederhana ini aku buat untuk mengingatkan betapa berharganya setiap detik yang kita habiskan bersama.</p>
+            <p>Aku sayang kamu, selamanya.</p>
+        </div>
+
+        <button class="btn-love" onclick="alert('I Love You More! ❤️')">Klik Aku</button>
+
+        <footer>
+            Dibuat dengan ❤️ untukmu.
+        </footer>
+    </div>
+
+    <script>
+        /* --- JAVASCRIPT CONFIGURATION --- */
+
+        // 1. UBAH TANGGAL JADIAN DI SINI (Tahun, Bulan-1, Tanggal)
+        // Bulan dimulai dari 0 (Januari = 0, Februari = 1, dst)
+        const startDate = new Date(2023, 0, 15); // Contoh: 15 Januari 2023
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("timer").innerHTML = 
+                `${days} Hari, ${hours} Jam, ${minutes} Menit, ${seconds} Detik`;
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // Fungsi membuat animasi hati jatuh
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            heart.style.fontSize = Math.random() * 20 + 10 + "px";
+            
+            document.getElementById("hearts-container").appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
