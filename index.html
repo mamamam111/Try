@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kisah Kita</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* --- CSS STYLING --- */
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
             color: #444;
             text-align: center;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .container {
@@ -27,126 +29,194 @@
         }
 
         /* Header */
-        header {
-            margin-top: 50px;
-            margin-bottom: 30px;
-        }
-
+        header { margin-top: 30px; margin-bottom: 20px; }
+        
         h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            color: #ff6b6b;
-            margin-bottom: 10px;
+            font-size: 3rem;
+            color: #d63384;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 5px;
         }
 
         .couple-names {
             font-size: 1.2rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-            color: #555;
+            font-weight: 600;
+            color: #fff;
+            background: rgba(214, 51, 132, 0.6);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
         }
 
-        /* Foto Utama (Profile) */
-        .profile-pic {
-            width: 150px;
-            height: 150px;
+        /* Foto Slideshow */
+        .photo-frame {
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            object-fit: cover;
             border: 5px solid #fff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             margin: 20px auto;
-            display: block;
-            /* Ganti URL di bawah ini dengan foto kalian */
-            background-image: url('https://github.com/mamamam111/Try/blob/main/20250518_201459.jpg?raw=true');
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Timer Box */
-        .timer-box {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            margin: 30px 0;
-        }
-
-        #timer {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ff6b6b;
-        }
-
-        .label {
-            font-size: 0.9rem;
-            color: #888;
-        }
-
-        /* Pesan / Surat */
-        .message-card {
-            background: #fff0f1;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            text-align: left;
+            overflow: hidden;
             position: relative;
         }
 
-        .message-card::before {
-            content: '"';
-            font-family: 'Dancing Script', cursive;
-            font-size: 4rem;
-            color: #ffb7b2;
+        .photo-slide {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
             position: absolute;
-            top: -10px;
-            left: 20px;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
         }
+
+        .photo-slide.active { opacity: 1; }
+
+        /* Timer Box */
+        .timer-box {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin: 20px 0;
+            border: 2px solid #fff;
+        }
+
+        #timer {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #d63384;
+        }
+
+        /* Interactive "Why I Love You" Box */
+        .interactive-box {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        #reason-display {
+            font-style: italic;
+            min-height: 50px;
+            color: #555;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* Amplop Surat */
+        .envelope-wrapper {
+            cursor: pointer;
+            margin: 30px auto;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            background: #ff6b6b;
+            width: 100px;
+            height: 70px;
+            margin: 0 auto;
+            border-radius: 0 0 10px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2rem;
+            transition: transform 0.5s;
+        }
+        
+        .envelope::before { /* Tutup amplop atas */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-top: 35px solid #ff8787;
+            transform-origin: top;
+            transition: transform 0.5s;
+        }
+
+        .envelope-wrapper:hover .envelope { transform: scale(1.1); }
+        .envelope-wrapper.open .envelope::before { transform: rotateX(180deg); }
+        
+        .letter-content {
+            display: none;
+            background: #fff0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+            border: 2px dashed #ffb7b2;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Floating Music Button */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #d63384;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(214, 51, 132, 0.4);
+            z-index: 100;
+            border: none;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
         /* Floating Hearts Animation */
         .heart {
             position: fixed;
             top: -1vh;
-            transform: translateY(0);
-            font-size: 1.5rem;
-            color: #ff6b6b;
-            opacity: 0.8;
-            z-index: 1;
-            animation: fall 10s linear infinite;
+            color: #d63384;
+            opacity: 0.6;
+            z-index: 0;
+            animation: fall linear infinite;
         }
+        @keyframes fall { to { transform: translateY(105vh); } }
 
-        @keyframes fall {
-            to {
-                transform: translateY(105vh);
-            }
-        }
-
-        footer {
-            margin-top: 50px;
-            font-size: 0.8rem;
-            color: #aaa;
-            margin-bottom: 20px;
-        }
-
-        /* Button */
-        .btn-love {
-            background-color: #ff6b6b;
+        /* Tombol Umum */
+        button {
+            background-color: #d63384;
             color: white;
             border: none;
-            padding: 10px 25px;
+            padding: 10px 20px;
             border-radius: 50px;
-            font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.2s;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            font-family: inherit;
+            transition: 0.3s;
         }
-
-        .btn-love:hover {
-            transform: scale(1.05);
-        }
+        button:hover { background-color: #b02a6b; transform: translateY(-2px); }
 
     </style>
 </head>
 <body>
+
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <button class="music-btn" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </button>
 
     <div id="hearts-container"></div>
 
@@ -156,50 +226,113 @@
             <div class="couple-names">AKU & KAMU</div>
         </header>
 
-        <div class="profile-pic"></div>
+        <div class="photo-frame">
+            <div class="photo-slide active" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400');"></div>
+            <div class="photo-slide" style="background-image: url('https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=400');"></div>
+            <div class="photo-slide" style="background-image: url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=400');"></div>
+        </div>
 
         <div class="timer-box">
-            <div class="label">Kita sudah bersama selama:</div>
-            <div id="timer">Memuat waktu...</div>
+            <div class="label" style="margin-bottom:5px;">Kita sudah bareng selama:</div>
+            <div id="timer">Hitung waktu...</div>
         </div>
 
-        <div class="message-card">
-            <p>Hai sayang,</p>
-            <p>Terima kasih sudah menjadi bagian terbaik dalam hidupku. Website sederhana ini aku buat untuk mengingatkan betapa berharganya setiap detik yang kita habiskan bersama.</p>
-            <p>Aku sayang kamu, selamanya.</p>
+        <div class="interactive-box">
+            <h3>Kenapa Aku Sayang Kamu?</h3>
+            <p id="reason-display">Klik tombol di bawah untuk tahu alasannya...</p>
+            <button onclick="newReason()">Beri Aku Alasan ❤️</button>
         </div>
 
-        <button class="btn-love" onclick="alert('I Love You More! ❤️')">Klik Aku</button>
+        <div class="envelope-wrapper" onclick="openLetter()" id="envelope-box">
+            <div class="envelope">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div style="margin-top: 10px; font-size: 0.8rem; color: #555;">(Klik surat untuk membaca)</div>
+        </div>
 
-        <footer>
-            Dibuat dengan ❤️ untukmu.
+        <div class="letter-content" id="letter">
+            <p><b>Hai Sayangku,</b></p>
+            <p>Mungkin website ini sederhana, tapi perasaanku ke kamu jauh lebih besar dari sekadar kode-kode ini.</p>
+            <p>Makasih sudah sabar sama aku, makasih sudah selalu ada. Aku cuma mau bilang: <b>I Love You More Than Yesterday!</b> ❤️</p>
+            <p style="text-align: right;">- Pasanganmu</p>
+        </div>
+
+        <footer style="margin-top: 40px; font-size: 0.7rem; opacity: 0.7;">
+            Made with ❤️ | Klik tombol musik di pojok kanan
         </footer>
     </div>
 
     <script>
-        /* --- JAVASCRIPT CONFIGURATION --- */
+        /* --- 1. SETUP TANGGAL JADIAN --- */
+        const startDate = new Date(2023, 0, 15); // Format: (Tahun, Bulan-1, Tanggal)
 
-        // 1. UBAH TANGGAL JADIAN DI SINI (Tahun, Bulan-1, Tanggal)
-        // Bulan dimulai dari 0 (Januari = 0, Februari = 1, dst)
-        const startDate = new Date(2023, 0, 15); // Contoh: 15 Januari 2023
+        /* --- 2. SETUP ALASAN CINTA (Bisa ditambah) --- */
+        const reasons = [
+            "Karena senyum kamu bikin hariku cerah.",
+            "Karena kamu selalu ada pas aku butuh.",
+            "Karena ketawa kamu itu nular banget!",
+            "Karena cuma kamu yang ngerti anehnya aku.",
+            "Karena masakan/kopi buatanmu enak banget.",
+            "Karena kamu rumah ternyaman buat aku pulang.",
+            "Gak butuh alasan, pokoknya sayang aja! ❤️"
+        ];
 
+        /* --- LOGIC SCRIPT (JANGAN DIUBAH KECUALI PAHAM) --- */
+        
+        // Timer Logic
         function updateTimer() {
             const now = new Date();
             const diff = now - startDate;
-
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById("timer").innerHTML = `${days} Hari : ${hours} Jam : ${minutes} Menit : ${seconds} Detik`;
+        }
+        setInterval(updateTimer, 1000);
 
-            document.getElementById("timer").innerHTML = 
-                `${days} Hari, ${hours} Jam, ${minutes} Menit, ${seconds} Detik`;
+        // Slideshow Logic
+        let slideIndex = 0;
+        const slides = document.querySelectorAll(".photo-slide");
+        function showSlides() {
+            slides.forEach(slide => slide.classList.remove("active"));
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            slides[slideIndex - 1].classList.add("active");
+            setTimeout(showSlides, 3000); // Ganti gambar setiap 3 detik
+        }
+        showSlides();
+
+        // Music Logic
+        const music = document.getElementById("bg-music");
+        let isPlaying = false;
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                isPlaying = false;
+            } else {
+                music.play();
+                isPlaying = true;
+                alert("Musik diputar! 🎵"); // Feedback sederhana
+            }
         }
 
-        setInterval(updateTimer, 1000);
-        updateTimer();
+        // Reason Logic
+        function newReason() {
+            const random = Math.floor(Math.random() * reasons.length);
+            document.getElementById("reason-display").innerText = '"' + reasons[random] + '"';
+        }
 
-        // Fungsi membuat animasi hati jatuh
+        // Letter Logic
+        function openLetter() {
+            document.getElementById("envelope-box").classList.add("open");
+            setTimeout(() => {
+                document.getElementById("envelope-box").style.display = "none";
+                document.getElementById("letter").style.display = "block";
+            }, 500);
+        }
+
+        // Hearts Animation
         function createHeart() {
             const heart = document.createElement("div");
             heart.classList.add("heart");
@@ -207,16 +340,10 @@
             heart.style.left = Math.random() * 100 + "vw";
             heart.style.animationDuration = Math.random() * 3 + 2 + "s";
             heart.style.fontSize = Math.random() * 20 + 10 + "px";
-            
             document.getElementById("hearts-container").appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => heart.remove(), 5000);
         }
-
         setInterval(createHeart, 300);
     </script>
 </body>
-
 </html>
